@@ -1,0 +1,280 @@
+<script>
+   
+//    const getData = (cb)=>{
+
+//      setTimeout(() => {
+
+//         console.log('Login to check Data');
+//         cb()
+        
+//      }, 1000);
+
+//    }
+    
+//     getData(()=>{
+//         console.log("Successfully done");
+        
+//     })
+    
+
+
+    // login
+
+    // order
+
+    // get oredrs
+
+    // getpayment
+
+
+
+    // login(()=>{
+    //     getUser(()=>{
+    //         getOrders(()=>{
+    //             getDatapayment(()=>{
+    //                 console.log('paymet done');
+                    
+    //             })
+    //         })
+    //     })
+    // })
+
+    // callback hell 
+
+    // we use promise
+
+
+//   promise have a 3 state
+
+// pending
+// FullFilled & reject
+
+
+// const pramise = new Promise((resolve,reject)=>{
+
+
+
+
+// })
+
+
+const newLogin = new Promise((resolve,reject)=>{
+
+   
+        resolve("login Data Strat")
+   
+
+})
+
+// console.log(newLogin);
+
+
+
+// newLogin.then((result)=>{
+//     console.log(result);
+
+// }).catch((err)=>{
+//    console.log(err);
+   
+// })
+
+
+// const dataIncrece = new Promise((resolve,reject)=>{
+
+
+//      resolve(20)
+
+
+
+// })
+
+
+// dataIncrece.then((data)=>{
+//     return data*2
+// }).then((data)=>{
+//     return data * 20
+
+// }).then((data)=>{
+//     console.log(data);
+// })
+
+
+
+// const dataError = new Promise((resolve,reject)=>{
+
+//     reject("Some thing Error")
+
+// })
+
+// dataError.catch((err)=>{
+
+//     console.log(err);
+    
+
+// })
+
+
+
+// const getData = (cb)=>{
+
+//     setTimeout(()=>{
+//         cb()
+//     },2000)
+
+// }
+
+// getData(()=>{
+//     console.log('running');
+    
+// })
+
+
+
+// const getDatas =  ()=>{
+
+//     return new Promise((resolve,reject)=>{
+
+//         setTimeout(()=>{
+
+//             resolve("Data")
+
+//             if(false){
+//                 reject("Error")
+//             }
+
+//         },2000)
+
+//     })
+
+// }
+
+// getDatas().then((data)=>{
+//     console.log(data);
+    
+// }).catch((err)=>{
+
+//     console.log(error);
+    
+
+// })
+
+
+
+// const datanew = ()=>{
+//     console.log('runing');
+    
+// }
+// const getData = async ()=>{
+
+//     const data = await datanew();
+    
+    
+    
+    
+
+// }
+
+
+// getData()
+
+
+
+
+// const getData = (cb)=>{
+
+//     fetch("https://dummyjson.com/products").then((res)=>{
+
+//         return res.json()
+
+//     }).then((data)=>{
+
+//         cb(data.products)
+
+//     })
+
+// }
+
+
+// getData((user)=>{
+
+//     //console.log(user);
+
+//     user.map((e)=>{console.log(e.title);
+//     })
+    
+// })
+
+
+// const getData = ()=>{
+  
+//     return fetch("https://dummyjson.com/products").then((res)=>{return res.json()})
+
+
+// }
+// getData().then((user)=>{
+
+//     console.log(user);
+    
+
+// }).catch((err)=>{
+//     console.log(err);
+    
+// })
+
+
+
+// const getData = async ()=>{
+
+//     const dataget =await fetch("https://dummyjson.com/products")
+
+//     const res = await dataget.json()
+
+//     console.log(res.products);
+
+
+
+// }
+
+// getData()
+
+
+// const getData = (cb)=>{
+
+//     setTimeout(()=>{
+//          cb("Sudhan")
+//     },2000)
+
+// }
+// getData((data)=>{
+
+//     console.log(data);
+    
+
+// })
+
+
+
+// const getDatas = new Promise((res,rej)=>{
+//     setTimeout(()=>{
+
+//         res("Data")
+
+//     },2000)
+// })
+
+// getDatas.then((res)=>console.log(res))
+
+
+// const datas = async ()=>{
+
+//    const datasnew = await setTimeout(()=>{
+
+//         console.log('Running');
+        
+
+//     },1000)
+
+// }
+
+// datas()
+</script>

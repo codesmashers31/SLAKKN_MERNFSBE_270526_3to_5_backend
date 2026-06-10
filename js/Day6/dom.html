@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML</title>
+</head>
+<body>
+    
+<h1 id="heading">This is my Data</h1>
+
+<button id="btn">Click me</button>
+
+    <script>
+        
+        const headings = document.getElementById("heading")
+        const btn = document.getElementById("btn")
+        
+
+        btn.addEventListener("click",()=>{
+              headings.innerHTML = "This is the data"
+              headings.style.color = "blue"
+        })
+    </script>
+</body>
+</html>
