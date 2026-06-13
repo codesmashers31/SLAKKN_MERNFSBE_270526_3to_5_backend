@@ -1,7 +1,7 @@
 
 
 const FunctionProps = ({dataFunction}) => {
-dataFunction()
+
 
   return (
    <>
