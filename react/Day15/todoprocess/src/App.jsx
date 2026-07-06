@@ -1,6 +1,6 @@
 // import { useEffect, useState } from "react"
 
-import { useEffect, useState } from "react"
+
 
 
 // const App = () => {
@@ -91,151 +91,229 @@ import { useEffect, useState } from "react"
 
 
 
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 const App = () => {
 
-  const [formData,setFormData] = useState({userName:"",userMobile:"",userEmail:""})
-  const [saveData,setSaveData] = useState([])
-  const [editId,setEditID] = useState(null)
+  const [formData, setFormData] = useState({
+    userName: "",
+    userMobile: "",
+    userEmail: ""
+  });
 
-  const [search,setSearch] = useState("")
-  const handleChange = (e)=>{
-  
+  const [saveData, setSaveData] = useState([]);
+  const [editId, setEditID] = useState(null);
+  const [search, setSearch] = useState("");
 
-    setFormData({...formData,[e.target.name]:e.target.value})
-        
+  const API = "http://localhost:8080/api/users";
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  // GET ALL USERS
+  const getData = async () => {
+    try {
+      const response = await axios.get(API);
+      setSaveData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  // ADD USER
+  const handleAdd = async (e) => {
+    e.preventDefault();
+
+    try {
+
+      await axios.post(API, formData);
+
+      alert("Successfully Added");
+
+      setFormData({
+        userName: "",
+        userMobile: "",
+        userEmail: ""
+      });
+
+      getData();
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // EDIT USER
+  const handleEdit = (user) => {
+
+    setFormData({
+      userName: user.userName,
+      userMobile: user.userMobile,
+      userEmail: user.userEmail
+    });
+
+    setEditID(user.id);
+  };
+
+  // UPDATE USER
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    try {
+
+      await axios.put(`${API}/${editId}`, formData);
+
+      alert("Successfully Updated");
+
+      setEditID(null);
+
+      setFormData({
+        userName: "",
+        userMobile: "",
+        userEmail: ""
+      });
+
+      getData();
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // DELETE USER
+  const handleDelete = async (id) => {
+
+    try {
+
+      await axios.delete(`${API}/${id}`);
+
+      alert("Successfully Deleted");
+
+      getData();
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // SEARCH
+  let filteredData = [...saveData];
+
+  if (search) {
+    filteredData = filteredData.filter((user) =>
+      user.userName
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    );
   }
 
-const handleAdd = (e)=>{
-  e.preventDefault()
-
-  const userDatas = {id:Date.now(),...formData}
-
- const userLocal =  JSON.parse(localStorage.getItem("todolist")) || []
-
-
- userLocal.push(userDatas)
-
- localStorage.setItem("todolist",JSON.stringify(userLocal))
-
-
-
-setFormData({userName:"",userMobile:"",userEmail:""})
-
-alert('Succfully added')
-
-getData()
-}
-
-
-const getData = ()=>{
-   
- const userLocal =  JSON.parse(localStorage.getItem("todolist")) ||  []
-  setSaveData(userLocal)
-}
-useEffect(()=>{
- getData()
-},[])
-
-
-const handleEdit = (userid)=>{
-
-  const EditData = saveData.find((e)=>e.id===userid)
-
-  //console.log(EditData);
-
-  setFormData({
-     
-    userName:EditData.userName,
-    userMobile :EditData.userMobile,
-    userEmail: EditData.userEmail
-
-  })
-
-setEditID(userid)
-
-
-  
-
-}
-
-const handleDelete = (userid)=>{
-
-const getData = JSON.parse(localStorage.getItem("todolist"))
-const deleteData = getData.filter((e)=>e.id !== userid)
-
-  //console.log(deleteData);
-  localStorage.setItem("todolist",JSON.stringify(deleteData))
-
-  alert('Successfully Deleted')
-  
-  setSaveData(deleteData)
-  getData()
-
-
-}
-
-
-const handleUpdate = (e)=>{
-e.preventDefault()
-
-const getData = JSON.parse(localStorage.getItem("todolist"))
-const updateData = getData.map((e)=>e.id===editId?{...getData,...formData}:saveData)
-localStorage.setItem("todolist",JSON.stringify(updateData))
-setSaveData(updateData)
-setEditID(null)
-setFormData({userName:"",userMobile:"",userEmail:""})
-}
-
-
-let saveDataNew = [...saveData]
-
-if(search){
-    
-   saveDataNew=saveDataNew.filter((e)=>e.userName.toLowerCase().includes(search.toLowerCase())) 
-
-}
   return (
-   <>
-   <form>
-    <input type="text" name="userName" placeholder="userName" value={formData.userName} onChange={handleChange} />
-    <input type="text" name="userMobile" placeholder="Mobile" value={formData.userMobile} onChange={handleChange} />
-    <input type="text" name="userEmail" placeholder="Email" value={formData.userEmail} onChange={handleChange} />
-    {editId===null?<button onClick={handleAdd}>Add</button>:<button onClick={handleUpdate}>Update</button>}
-    
-    
-   </form>
+    <div style={{ padding: "20px" }}>
 
+      <h1>User Management</h1>
 
-   <input type="text" onChange={(e)=>setSearch(e.target.value)} />
+      <form>
 
-   <div>
-    <table>
-      <thead>
-        <tr>
-          <th>S.no</th>
-          <th>Name</th>
-          <th>Mobile</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        {saveDataNew.map((e,i)=>(
-          <tr key={e.id}>
-          <td>{i+1}</td>
-          <td>{e.userName}</td>
-          <td>{e.userMobile}</td>
-          <td>{e.userEmail}</td>
-          <td><button onClick={()=>handleEdit(e.id)}>Edit</button> || <button onClick={()=>handleDelete(e.id)}>Delete</button></td>
-        </tr>
-          
-        ))}
-        
-      </tbody>
-    </table>
-   </div>
-   </>
-  )
-}
+        <input
+          type="text"
+          name="userName"
+          placeholder="User Name"
+          value={formData.userName}
+          onChange={handleChange}
+        />
 
-export default App
+        <input
+          type="text"
+          name="userMobile"
+          placeholder="Mobile Number"
+          value={formData.userMobile}
+          onChange={handleChange}
+        />
+
+        <input
+          type="email"
+          name="userEmail"
+          placeholder="Email"
+          value={formData.userEmail}
+          onChange={handleChange}
+        />
+
+        {
+          editId === null
+            ? <button onClick={handleAdd}>Add</button>
+            : <button onClick={handleUpdate}>Update</button>
+        }
+
+      </form>
+
+      <br />
+
+      <input
+        type="text"
+        placeholder="Search User"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      <br /><br />
+
+      <table border="1" cellPadding="10">
+
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>User Name</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {
+            filteredData.map((user, index) => (
+              <tr key={user.id}>
+                <td>{index + 1}</td>
+                <td>{user.userName}</td>
+                <td>{user.userMobile}</td>
+                <td>{user.userEmail}</td>
+                <td>
+
+                  <button
+                    onClick={() => handleEdit(user)}
+                  >
+                    Edit
+                  </button>
+
+                  {" "}
+
+                  <button
+                    onClick={() => handleDelete(user.id)}
+                  >
+                    Delete
+                  </button>
+
+                </td>
+              </tr>
+            ))
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+  );
+};
+
+export default App;
