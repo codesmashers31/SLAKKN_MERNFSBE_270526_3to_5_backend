@@ -1,5 +1,6 @@
 import authModel from "../models/authModel.js";
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 export const registerData = async(req,res)=>{
 
 
@@ -47,7 +48,14 @@ export const loginData = async (req,res)=>{
 
         }
 
-        res.status(200).json({msg:"success",users:{id:checkEmail._id,email:checkEmail.useremail}})
+        const token = await jwt.sign({id:checkEmail._id,name:checkEmail.username},process.env.JWT_SECRET,{expiresIn:"1d"})
+          
+         
+        //console.log(token);
+        
+
+
+        res.status(200).json({msg:"success",users:{id:checkEmail._id,email:checkEmail.useremail},token})
         
     } catch (error) {
 

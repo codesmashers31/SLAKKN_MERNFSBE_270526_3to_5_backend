@@ -24,6 +24,11 @@ const handleSubmit = async(e) =>{
  
   const datas = await loginData(takeData)
 
+  //console.log(datas.data.token);
+
+  localStorage.setItem("jwttoken",JSON.stringify(datas.data.token))
+  
+
   alert(datas.data.msg)
 
   settakeData({useremail:"",userpassword:""})
